@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Garden Party Magazine</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=EB+Garamond:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #f5f0e8;
+    --rust: #c0392b;
+    --amber: #e8a020;
+    --sage: #8a9e7a;
+    --warm-gray: #c8bfb0;
+    --dark: #1a1a18;
+    --orange: #d4611a;
+  }
+
+  body {
+    background: #0d0d0b;
+    font-family: 'EB Garamond', serif;
+    color: var(--cream);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ─── GRID VIEW ─── */
+  #grid-view {
+    padding: 60px 40px 80px;
+    max-width: 1100px;
+    margin: 0 auto;
+    transition: opacity 0.4s ease;
+  }
+
+  .masthead {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+
+  .masthead h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    color: var(--cream);
+  }
+
+  .masthead p {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--warm-gray);
+    margin-top: 8px;
+    letter-spacing: 0.2em;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+
+  .spread {
+    grid-column: span 2;
+    aspect-ratio: 2/1.3;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 1px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .spread:hover {
+    transform: scale(1.015);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+    z-index: 2;
+  }
+
+  .spread-inner {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    position: relative;
+  }
+
+  .page-left, .page-right {
+    flex: 1;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Page color/texture themes */
+  .theme-cream { background: var(--cream); }
+  .theme-rust { background: var(--rust); }
+  .theme-amber { background: var(--amber); }
+  .theme-sage { background: #b5c4a8; }
+  .theme-dark { background: #2a2a27; }
+  .theme-beige { background: #e8e0d0; }
+  .theme-terracotta { background: #c96a3c; }
+  .theme-slate { background: #7a8a8c; }
+  .theme-sand { background: #d8c9a8; }
+  .theme-olive { background: #5a5e3c; }
+  .theme-white { background: #f8f5f0; }
+
+  /* Photo placeholders using CSS art */
+  .photo {
+    width: 100%; height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Various photo simulations */
+  .photo-beach { background: linear-gradient(180deg, #87CEEB 50%, #c4a882 50%); }
+  .photo-forest { background: linear-gradient(160deg, #2d5a3d 0%, #4a7c59 40%, #6b9e6b 100%); }
+  .photo-market { background: linear-gradient(135deg, #e8c878 0%, #d4a840 50%, #b8893a 100%); }
+  .photo-hands { background: linear-gradient(180deg, #d4a882 40%, #c49472 100%); }
+  .photo-train { background: linear-gradient(90deg, #3a3a3a 0%, #666 50%, #3a3a3a 100%); }
+  .photo-sea { background: linear-gradient(180deg, #4a90c4 0%, #2a70a4 40%, #1a5080 100%); }
+  .photo-fruit { background: linear-gradient(135deg, #8bc34a 0%, #f9a825 50%, #e65100 100%); }
+  .photo-table { background: linear-gradient(180deg, #e8d5b0 0%, #d4bf90 100%); }
+  .photo-mountain { background: linear-gradient(180deg, #87CEEB 30%, #999 60%, #ccc 100%); }
+  .photo-street { background: linear-gradient(135deg, #888 0%, #aaa 50%, #999 100%); }
+  .photo-picnic { background: linear-gradient(180deg, #a8d080 0%, #7aaa50 40%, #e8c878 100%); }
+  .photo-swim { background: linear-gradient(180deg, #4a8fc4 0%, #2a6a9c 100%); }
+  .photo-pasta { background: linear-gradient(135deg, #d4c4a0 0%, #b8a878 100%); }
+  .photo-peach { background: linear-gradient(180deg, #7aaa50 30%, #e8a060 70%); }
+  .photo-lemons { background: linear-gradient(180deg, #8bc34a 20%, #f9e040 70%); }
+  .photo-red { background: linear-gradient(160deg, #c0392b 0%, #922b21 100%); }
+  .photo-orange { background: linear-gradient(160deg, #d4611a 0%, #c0390a 100%); }
+
+  /* Decorative overlays on photos */
+  .photo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.08);
+  }
+
+  /* Text overlays on pages */
+  .page-text {
+    position: absolute;
+    inset: 0;
+    padding: 8% 7%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .page-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(0.55rem, 1.1vw, 1.1rem);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+    line-height: 1.2;
+  }
+
+  .page-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(0.4rem, 0.8vw, 0.85rem);
+    opacity: 0.75;
+    line-height: 1.4;
+  }
+
+  .page-body {
+    font-family: 'EB Garamond', serif;
+    font-size: clamp(0.32rem, 0.6vw, 0.65rem);
+    line-height: 1.6;
+    opacity: 0.7;
+    margin-top: 5px;
+    column-count: 2;
+    column-gap: 8px;
+  }
+
+  .page-body.single { column-count: 1; }
+
+  .spine {
+    width: 2px;
+    background: rgba(0,0,0,0.15);
+    flex-shrink: 0;
+    align-self: stretch;
+  }
+
+  .page-number {
+    position: absolute;
+    bottom: 5%;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(0.3rem, 0.5vw, 0.5rem);
+    opacity: 0.5;
+    letter-spacing: 0.1em;
+  }
+  .page-left .page-number { left: 7%; }
+  .page-right .page-number { right: 7%; }
+
+  .spread-label {
+    position: absolute;
+    bottom: -24px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.65rem;
+    color: var(--warm-gray);
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .spread:hover .spread-label { opacity: 1; }
+
+  /* ─── MAGAZINE READER ─── */
+  #reader-view {
+    position: fixed;
+    inset: 0;
+    background: #0d0d0b;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+  }
+
+  #reader-view.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .reader-close {
+    position: fixed;
+    top: 24px; right: 28px;
+    background: none;
+    border: 1px solid rgba(255,255,255,0.25);
+    color: var(--cream);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    padding: 8px 18px;
+    cursor: pointer;
+    transition: all 0.2s;
+    z-index: 200;
+  }
+  .reader-close:hover { background: rgba(255,255,255,0.1); }
+
+  .reader-page-indicator {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.75rem;
+    color: var(--warm-gray);
+    letter-spacing: 0.15em;
+    z-index: 200;
+  }
+
+  /* Flip book */
+  .flipbook-container {
+    position: relative;
+    width: min(88vw, 900px);
+    height: min(60vw, 580px);
+    perspective: 2000px;
+  }
+
+  .flipbook {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+  }
+
+  /* Individual pages as cards */
+  .fpage {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    transform-origin: left center;
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1.000);
+    cursor: pointer;
+  }
+
+  .fpage.right-page {
+    left: 50%;
+    transform-origin: left center;
+  }
+
+  .fpage.left-page {
+    left: 0;
+    transform-origin: right center;
+  }
+
+  .fpage-front, .fpage-back {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    overflow: hidden;
+    border-radius: 1px;
+  }
+
+  .fpage-back {
+    transform: rotateY(180deg);
+  }
+
+  /* Page shadow */
+  .fpage-front::after, .fpage-back::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .fpage.right-page .fpage-front::after {
+    background: linear-gradient(to right, rgba(0,0,0,0.15) 0%, transparent 15%);
+  }
+
+  .fpage.left-page .fpage-front::after {
+    background: linear-gradient(to left, rgba(0,0,0,0.15) 0%, transparent 15%);
+  }
+
+  /* Flipping state */
+  .fpage.flipping-right {
+    transform: rotateY(-180deg);
+    z-index: 10;
+  }
+
+  /* Nav arrows */
+  .reader-nav {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: var(--cream);
+    width: 44px; height: 44px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: all 0.2s;
+    z-index: 200;
+    border-radius: 50%;
+  }
+  .reader-nav:hover { background: rgba(255,255,255,0.1); }
+  #nav-prev { left: 20px; }
+  #nav-next { right: 20px; }
+
+  /* Spread content for reader */
+  .rpage {
+    width: 100%; height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Grain texture overlay */
+  #grain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 300;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ─── Spread content definitions ─── */
+  .rc { width:100%; height:100%; display:flex; flex-direction:column; }
+
+  .full-photo {
+    width: 100%; flex: 1;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .text-block {
+    padding: 8% 8%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+  }
+
+  .rpage-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1rem, 2.5vw, 2.2rem);
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+
+  .rpage-title em {
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  .rpage-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(0.7rem, 1.5vw, 1.15rem);
+    opacity: 0.8;
+    margin-bottom: 16px;
+    letter-spacing: 0.05em;
+  }
+
+  .rpage-body {
+    font-family: 'EB Garamond', serif;
+    font-size: clamp(0.6rem, 1.2vw, 0.95rem);
+    line-height: 1.75;
+    opacity: 0.75;
+    column-count: 2;
+    column-gap: 20px;
+  }
+
+  .rpage-body.single { column-count: 1; }
+
+  .big-initial::first-letter {
+    font-family: 'Playfair Display', serif;
+    font-size: 4em;
+    line-height: 0.75;
+    float: left;
+    margin-right: 4px;
+    margin-top: 6px;
+    font-weight: 600;
+  }
+
+  .half-photo {
+    width: 100%; height: 55%;
+    background-size: cover;
+    background-position: center;
+    flex-shrink: 0;
+  }
+
+  .half-text {
+    flex: 1;
+    padding: 6% 8%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .color-block {
+    width: 100%; height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 10% 9%;
+  }
+
+  .pullquote {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 2.8vw, 2.4rem);
+    line-height: 1.3;
+    font-weight: 400;
+  }
+
+  .pullquote-attr {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(0.55rem, 1vw, 0.85rem);
+    letter-spacing: 0.2em;
+    margin-top: 16px;
+    opacity: 0.7;
+  }
+
+  /* section divider */
+  .divider {
+    width: 40px; height: 1px;
+    background: currentColor;
+    opacity: 0.3;
+    margin: 12px 0;
+  }
+
+  .tag {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(0.4rem, 0.75vw, 0.65rem);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    opacity: 0.55;
+    margin-bottom: 10px;
+  }
+
+  /* Caption */
+  .caption {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(0.45rem, 0.85vw, 0.72rem);
+    opacity: 0.55;
+    margin-top: 8px;
+    padding: 0 8%;
+  }
+
+  .pn {
+    position: absolute;
+    bottom: 3.5%;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(0.35rem, 0.65vw, 0.55rem);
+    opacity: 0.4;
+    letter-spacing: 0.1em;
+  }
+  .pn-l { left: 7%; }
+  .pn-r { right: 7%; }
+
+  @media (max-width: 700px) {
+    .grid { grid-template-columns: repeat(2, 1fr); }
+    .spread { grid-column: span 2; }
+    .flipbook-container { width: 95vw; height: 65vw; }
+    #nav-prev { left: 4px; }
+    #nav-next { right: 4px; }
+  }
+</style>
+</head>
+<body>
+<div id="grain"></div>
+
+<!-- ── GRID VIEW ── -->
+<div id="grid-view">
+  <div class="masthead">
+    <h1>Garden Party</h1>
+    <p>A magazine about food, place & the long table</p>
+  </div>
+
+  <div class="grid" id="spread-grid">
+    <!-- Spreads injected by JS -->
+  </div>
+</div>
+
+<!-- ── READER VIEW ── -->
+<div id="reader-view">
+  <button class="reader-close" onclick="closeReader()">✕ &nbsp; CLOSE</button>
+  <button class="reader-nav" id="nav-prev" onclick="prevPage()">&#8592;</button>
+  <button class="reader-nav" id="nav-next" onclick="nextPage()">&#8594;</button>
+  <div class="reader-page-indicator" id="page-indicator"></div>
+
+  <div class="flipbook-container">
+    <div class="flipbook" id="flipbook">
+      <!-- Pages injected by JS -->
+    </div>
+  </div>
+</div>
+
+<script>
+// ──────────────────────────────────────────
+// DATA: spreads[i] = { label, left, right }
+// left/right = HTML string for each page
+// ──────────────────────────────────────────
+
+const spreads = [
+  {
+    label: "Cover & Contents",
+    gridLeft: `<div class="photo photo-red" style="height:55%"></div><div class="page-text" style="top:55%;bottom:0;height:auto"><div class="page-title" style="color:#1a1a18">Garden Party</div><div class="page-subtitle" style="color:#333">Issue No. 7 — Summer</div></div>`,
+    gridRight: `<div class="page-text theme-cream" style="position:relative;height:100%;background:var(--cream)"><div class="tag" style="color:#555">Contents</div><div class="page-title" style="color:#1a1a18;font-size:clamp(0.5rem,1vw,0.9rem)">Overview</div><div class="page-body single" style="color:#333;margin-top:4px">The harvest season calls us back to the table. In this issue: journeys by rail, the peaches of late August, a conversation with a chef who cooks only what she grows.</div></div>`,
+    leftBg: "theme-red",
+    rightBg: "theme-cream",
+    readerLeft: `<div class="rpage" style="background:#c0392b;color:var(--cream)">
+      <div class="color-block">
+        <div class="tag" style="letter-spacing:0.4em;opacity:0.6">No. 7</div>
+        <div class="rpage-title" style="font-size:clamp(2rem,5vw,4.5rem);line-height:1.05">Garden<br><em>Party</em></div>
+        <div class="divider"></div>
+        <div class="rpage-subtitle">Summer — The Long Table Issue</div>
+      </div>
+      <span class="pn pn-l">1</span>
+    </div>`,
+    readerRight: `<div class="rpage" style="background:var(--cream);color:#1a1a18">
+      <div class="text-block">
+        <div class="tag">In this issue</div>
+        <div class="rpage-title" style="font-size:clamp(1.2rem,2.5vw,2rem)">Overview</div>
+        <div class="divider" style="background:#333"></div>
+        <div class="rpage-body single big-initial" style="color:#2a2a20">The harvest season brings us back to the table — to the friends gathered around it, the hands that prepared what sits upon it, and the roads we took to get there. This issue travels by slow train through southern Europe, visits the markets of a coastal town, and lingers over a meal that lasted until dark.</div>
+      </div>
+      <span class="pn pn-r">2</span>
+    </div>`
+  },
+  {
+    label: "By Rail",
+    gridLeft: `<div class="photo photo-train" style="height:100%"></div>`,
+    gridRight: `<div class="photo photo-market" style="height:60%"></div><div class="page-text" style="top:60%;bottom:0;height:auto;background:var(--cream)"><div class="page-title" style="color:#1a1a18;font-size:clamp(0.45rem,0.9vw,0.8rem)">The Train South</div><div class="page-body single" style="color:#333">Notes from a slow journey through the landscape of eating.</div></div>`,
+    readerLeft: `<div class="rpage rc" style="background:#2a2a27;color:var(--cream)">
+      <div class="full-photo" style="background:linear-gradient(135deg,#3a3a3a 0%,#555 40%,#444 70%,#2a2a2a 100%)"></div>
+      <div class="half-text" style="background:#1a1a18">
+        <div class="tag" style="color:var(--warm-gray)">Essay</div>
+        <div class="rpage-title">The Train South</div>
+        <div class="rpage-subtitle">On slow travel and eating well in transit</div>
+      </div>
+      <span class="pn pn-l" style="color:var(--warm-gray)">3</span>
+    </div>`,
+    readerRight: `<div class="rpage rc" style="background:#f5f0e8;color:#1a1a18">
+      <div class="half-photo" style="background:linear-gradient(160deg,#e8c878 0%,#d4a840 50%,#b8893a 100%)"></div>
+      <div class="half-text">
+        <div class="rpage-body single big-initial">There is a particular hunger that comes with movement — not the sharp kind, but a slow, wandering appetite that builds as the landscape shifts outside the glass. The man in the compartment opposite unwraps something from paper. You have not yet had breakfast.</div>
+      </div>
+      <span class="pn pn-r">4</span>
+    </div>`
+  },
+  {
+    label: "Appocrodia",
+    gridLeft: `<div class="theme-amber" style="height:100%;position:relative"><div class="page-text"><div class="page-title" style="font-size:clamp(0.6rem,1.3vw,1.2rem);color:#1a1a18;font-style:italic">Appocrodia</div><div class="page-subtitle" style="color:#2a2a20">A coastal town at market time</div></div></div>`,
+    gridRight: `<div class="photo photo-beach" style="height:100%"></div>`,
+    readerLeft: `<div class="rpage" style="background:var(--amber);color:#1a1a18">
+      <div class="color-block">
+        <div class="tag">Place</div>
+        <div class="rpage-title" style="font-size:clamp(1.8rem,4vw,3.8rem);font-style:italic;line-height:1.1">Appocrodia</div>
+        <div class="divider" style="background:#1a1a18"></div>
+        <div class="rpage-subtitle">A coastal town and its Saturday market</div>
+        <div class="rpage-body single" style="margin-top:12px">They arrive before the sun has fully settled on the water. The fishermen first, then the women with their crates of early tomatoes.</div>
+      </div>
+      <span class="pn pn-l">5</span>
+    </div>`,
+    readerRight: `<div class="rpage" style="background:#87CEEB;color:var(--cream)">
+      <div style="height:55%;background:linear-gradient(180deg,#87CEEB 45%,#c4a882 45%)"></div>
+      <div style="padding:5% 7%;background:#1a1a18;height:45%">
+        <div class="rpage-body single">She had been selling lemons at this same spot for thirty-one years. Her stall was always in the shadow of the wall, and she always arrived last, which meant she could always leave first.</div>
+      </div>
+      <span class="pn pn-r" style="color:var(--warm-gray)">6</span>
+    </div>`
+  },
+  {
+    label: "The Long Meal",
+    gridLeft: `<div class="photo photo-picnic" style="height:55%"></div><div style="height:45%;background:#e8e0d0;position:relative"><div class="page-text" style="position:absolute;inset:0;padding:8%"><div class="page-title" style="color:#1a1a18;font-size:clamp(0.45rem,0.9vw,0.85rem)">The Long Meal</div><div class="page-body single" style="color:#333">A meal that began at noon and ended somewhere after dark.</div></div></div>`,
+    gridRight: `<div class="theme-cream" style="height:100%;position:relative"><div class="page-text"><div class="page-body" style="color:#333">On the question of when exactly the meal ended, there was no consensus. The wine had run out before the conversation, and the conversation had run out before anyone thought to look at the sky.</div></div></div>`,
+    readerLeft: `<div class="rpage rc" style="background:#d4c4a0;color:#1a1a18">
+      <div class="full-photo" style="background:linear-gradient(180deg,#a8d080 0%,#7aaa50 40%,#e8c878 100%)"></div>
+      <div class="caption" style="color:#333;padding:4% 8% 5%">Above: the table as it looked at the beginning — before the bread was torn, before the wine was poured into the wrong glasses, before anyone knew how long it would go on.</div>
+      <span class="pn pn-l">7</span>
+    </div>`,
+    readerRight: `<div class="rpage" style="background:#f8f5f0;color:#1a1a18">
+      <div class="text-block">
+        <div class="tag">Feature</div>
+        <div class="rpage-title">The Long<br><em>Meal</em></div>
+        <div class="divider" style="background:#333"></div>
+        <div class="rpage-body big-initial">On the question of when exactly the meal ended, there was no consensus. The wine had run out before the conversation, and the conversation had run out before anyone thought to look at the sky. Dishes had been cleared and returned, refilled from somewhere. A child had fallen asleep under the table and been carried to a bedroom and the meal had continued.</div>
+      </div>
+      <span class="pn pn-r">8</span>
+    </div>`
+  },
+  {
+    label: "Late Summer",
+    gridLeft: `<div class="photo photo-peach" style="height:100%"></div>`,
+    gridRight: `<div class="theme-sand" style="height:100%;position:relative"><div class="page-text"><div class="page-title" style="color:#1a1a18;font-size:clamp(0.5rem,0.95vw,0.9rem)">The Peach Season</div><div class="page-body single" style="color:#333;margin-top:6px">There is a week, maybe ten days, when the peaches are exactly right. You have to know when to go.</div></div></div>`,
+    readerLeft: `<div class="rpage" style="background:linear-gradient(180deg,#7aaa50 25%,#e8a060 70%);color:var(--cream)">
+      <div style="height:100%;display:flex;align-items:flex-end;padding:8%">
+        <div>
+          <div class="tag" style="letter-spacing:0.3em">Season</div>
+          <div class="rpage-title" style="font-size:clamp(1.5rem,3.5vw,3rem)">The Peach<br><em>Season</em></div>
+        </div>
+      </div>
+      <span class="pn pn-l">9</span>
+    </div>`,
+    readerRight: `<div class="rpage" style="background:#d8c9a8;color:#1a1a18">
+      <div class="text-block">
+        <div class="pullquote">"There is a week, maybe ten days, when the peaches are exactly right. You have to know when to go."</div>
+        <div class="pullquote-attr">— On the market at Carpentras</div>
+        <div class="divider" style="background:#333;margin-top:20px"></div>
+        <div class="rpage-body single" style="margin-top:12px">By August the peaches on the lower branches had already softened too far. The ones at the top of the tree held the heat differently — they were the ones worth climbing for.</div>
+      </div>
+      <span class="pn pn-r">10</span>
+    </div>`
+  },
+  {
+    label: "A Conversation",
+    gridLeft: `<div style="background:var(--orange);height:100%;position:relative"><div class="page-text"><div class="page-title" style="color:var(--cream);font-style:italic;font-size:clamp(0.55rem,1.1vw,1rem)">A Conversation with</div><div class="page-subtitle" style="color:rgba(255,255,255,0.75)">Maria Luisa Ferran</div></div></div>`,
+    gridRight: `<div class="photo photo-table" style="height:55%"></div><div style="height:45%;background:#f5f0e8;position:relative"><div class="page-text" style="position:absolute;inset:0;padding:8%"><div class="page-body single" style="color:#333">She grows everything she cooks. She cooks everything she grows. She has not bought a vegetable in eleven years.</div></div></div>`,
+    readerLeft: `<div class="rpage" style="background:var(--orange);color:var(--cream)">
+      <div class="color-block">
+        <div class="tag" style="color:rgba(255,255,255,0.6)">Interview</div>
+        <div class="rpage-title" style="font-style:italic;font-size:clamp(1.2rem,3vw,2.8rem);line-height:1.15">A Conversation<br>with Maria<br>Luisa Ferran</div>
+        <div class="divider"></div>
+        <div class="rpage-subtitle" style="opacity:0.7">Chef. Farmer. Host of the longest table in Catalonia.</div>
+      </div>
+      <span class="pn pn-l">11</span>
+    </div>`,
+    readerRight: `<div class="rpage rc" style="background:#f5f0e8;color:#1a1a18">
+      <div class="half-photo" style="background:linear-gradient(180deg,#e8d5b0 0%,#d4bf90 100%)"></div>
+      <div class="half-text">
+        <div class="rpage-body single">She grows everything she cooks. She cooks everything she grows. She has not bought a vegetable from a market in eleven years, and she considers this not a restriction but a kind of freedom — the freedom of knowing exactly where everything comes from.</div>
+      </div>
+      <span class="pn pn-r">12</span>
+    </div>`
+  },
+  {
+    label: "Mountain Roads",
+    gridLeft: `<div style="background:#b5c4a8;height:50%;position:relative"></div><div style="background:#f5f0e8;height:50%;position:relative"><div class="page-text" style="position:absolute;inset:0;padding:8%"><div class="page-body single" style="color:#333">The road to the lake passes through three villages, each with its own bread.</div></div></div>`,
+    gridRight: `<div class="photo photo-swim" style="height:100%"></div>`,
+    readerLeft: `<div class="rpage" style="background:#f5f0e8;color:#1a1a18">
+      <div class="text-block">
+        <div class="tag">Travel</div>
+        <div class="rpage-title">Mountain<br><em>Roads</em></div>
+        <div class="divider" style="background:#333"></div>
+        <div class="rpage-body big-initial">The road to the lake passes through three villages, each with its own bread. In the first they bake it flat, with rosemary pressed into the crust. In the second it is tall and pale and meant to last a week. In the third no one bakes anymore — they drive to the valley for it, which everyone agrees is a shame.</div>
+      </div>
+      <span class="pn pn-l">13</span>
+    </div>`,
+    readerRight: `<div class="rpage" style="background:linear-gradient(180deg,#4a90c4 0%,#1a5080 100%);color:var(--cream)">
+      <div style="height:80%"></div>
+      <div style="padding:5% 8%;background:rgba(0,0,0,0.3)">
+        <div class="rpage-subtitle" style="opacity:0.9">The lake in late afternoon holds the mountains upside down in its surface. You swim through the reflection of peaks.</div>
+      </div>
+      <span class="pn pn-r">14</span>
+    </div>`
+  },
+  {
+    label: "Emilia talks Lisbon",
+    gridLeft: `<div class="photo photo-street" style="height:100%"></div>`,
+    gridRight: `<div style="background:#1a1a18;height:100%;position:relative"><div class="page-text"><div class="tag" style="color:var(--warm-gray)">Portrait</div><div class="page-title" style="color:var(--cream);font-size:clamp(0.5rem,1vw,0.95rem)">Emilia talks<br>Lisbon & Ladies</div><div class="page-body single" style="color:var(--warm-gray);margin-top:6px">On the restaurants that shaped her, the ones that didn't, and why she keeps going back.</div></div></div>`,
+    readerLeft: `<div class="rpage" style="background:linear-gradient(135deg,#888 0%,#aaa 50%,#999 100%);color:var(--cream)">
+      <div style="height:100%;display:flex;align-items:flex-end;padding:8%">
+        <div>
+          <div class="tag">Portrait</div>
+          <div class="rpage-title" style="font-size:clamp(1.5rem,3vw,2.8rem)">Emilia talks<br><em>Lisbon & Ladies</em></div>
+        </div>
+      </div>
+      <span class="pn pn-l">15</span>
+    </div>`,
+    readerRight: `<div class="rpage" style="background:#1a1a18;color:var(--cream)">
+      <div class="text-block">
+        <div class="rpage-subtitle" style="opacity:0.7">On the restaurants that shaped her, the ones that didn't, and why she keeps going back to a city that is always changing.</div>
+        <div class="divider"></div>
+        <div class="rpage-body big-initial" style="color:var(--warm-gray)">Lisbon taught me that a meal does not begin when you sit down. It begins when you decide where to go — that argument on the pavement, the three streets you walk before you agree. That is already part of eating.</div>
+      </div>
+      <span class="pn pn-r">16</span>
+    </div>`
+  }
+];
+
+// ──────────────────────────────────────────
+// BUILD GRID
+// ──────────────────────────────────────────
+const grid = document.getElementById('spread-grid');
+
+spreads.forEach((s, i) => {
+  const el = document.createElement('div');
+  el.className = 'spread';
+  el.innerHTML = `
+    <div class="spread-inner">
+      <div class="page-left">${s.gridLeft}</div>
+      <div class="spine"></div>
+      <div class="page-right">${s.gridRight}</div>
+    </div>
+    <span class="spread-label">${s.label}</span>
+  `;
+  el.addEventListener('click', () => openReader(i));
+  grid.appendChild(el);
+});
+
+// ──────────────────────────────────────────
+// READER / FLIPBOOK
+// ──────────────────────────────────────────
+let currentSpread = 0;
+
+function buildFlipbook(startIndex) {
+  const fb = document.getElementById('flipbook');
+  fb.innerHTML = '';
+
+  // We display a two-page spread; left = even, right = odd
+  // Animate a page flip when navigating
+  const s = spreads[startIndex];
+
+  // Left page
+  const lp = document.createElement('div');
+  lp.className = 'fpage left-page';
+  lp.id = 'fp-left';
+  lp.innerHTML = `<div class="fpage-front">${s.readerLeft}</div><div class="fpage-back"></div>`;
+
+  // Right page
+  const rp = document.createElement('div');
+  rp.className = 'fpage right-page';
+  rp.id = 'fp-right';
+  rp.innerHTML = `<div class="fpage-front">${s.readerRight}</div><div class="fpage-back"></div>`;
+
+  fb.appendChild(lp);
+  fb.appendChild(rp);
+
+  updateIndicator();
+}
+
+function updateIndicator() {
+  document.getElementById('page-indicator').textContent =
+    `${spreads[currentSpread].label}  ·  ${currentSpread + 1} / ${spreads.length}`;
+  document.getElementById('nav-prev').style.opacity = currentSpread === 0 ? '0.3' : '1';
+  document.getElementById('nav-next').style.opacity = currentSpread === spreads.length - 1 ? '0.3' : '1';
+}
+
+function openReader(index) {
+  currentSpread = index;
+  buildFlipbook(index);
+  document.getElementById('reader-view').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeReader() {
+  document.getElementById('reader-view').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function flipTo(newIndex, direction) {
+  if (newIndex < 0 || newIndex >= spreads.length) return;
+
+  const fb = document.getElementById('flipbook');
+  const lp = document.getElementById('fp-left');
+  const rp = document.getElementById('fp-right');
+  const flipPage = direction === 'next' ? rp : lp;
+
+  // Animate flip
+  flipPage.style.transition = 'transform 0.7s cubic-bezier(0.645,0.045,0.355,1)';
+  if (direction === 'next') {
+    flipPage.style.transformOrigin = 'left center';
+    flipPage.style.transform = 'rotateY(-180deg)';
+    flipPage.style.zIndex = 10;
+  } else {
+    flipPage.style.transformOrigin = 'right center';
+    flipPage.style.transform = 'rotateY(180deg)';
+    flipPage.style.zIndex = 10;
+  }
+
+  setTimeout(() => {
+    currentSpread = newIndex;
+    buildFlipbook(newIndex);
+  }, 380);
+}
+
+function nextPage() {
+  if (currentSpread < spreads.length - 1) flipTo(currentSpread + 1, 'next');
+}
+
+function prevPage() {
+  if (currentSpread > 0) flipTo(currentSpread - 1, 'prev');
+}
+
+// Keyboard navigation
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('reader-view').classList.contains('active')) return;
+  if (e.key === 'ArrowRight') nextPage();
+  if (e.key === 'ArrowLeft') prevPage();
+  if (e.key === 'Escape') closeReader();
+});
+
+// Click outside flipbook to close (optional)
+document.getElementById('reader-view').addEventListener('click', e => {
+  if (e.target === document.getElementById('reader-view')) closeReader();
+});
+
+// Touch/swipe support
+let touchStartX = 0;
+document.getElementById('reader-view').addEventListener('touchstart', e => {
+  touchStartX = e.touches[0].clientX;
+}, { passive: true });
+
+document.getElementById('reader-view').addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  if (Math.abs(dx) > 50) dx < 0 ? nextPage() : prevPage();
+}, { passive: true });
+</script>
+</body>
+</html>
