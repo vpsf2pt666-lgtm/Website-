@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Gemma E Keeling</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,700&family=Jost:wght@200;300;400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Courier+Prime:ital@0;1&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+
+:root {
+  --cream:    #f5f0e8;
+  --cream2:   #ede5d8;
+  --cream3:   #e0d5c5;
+  --ink:      #2a2018;
+  --ink-mid:  #7a6a58;
+  --ink-faint:#b8aa98;
+  --red:      #c0392b;
+  --red-pale: #e8c5c0;
+  --rule:     #d8cfc0;
+  --white:    #faf7f2;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+}
+
+/* grain texture overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 500;
+  background: var(--cream);
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 3.5rem;
+  height: 60px;
+}
+
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-weight: 300;
+  font-style: italic;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+
+.nav-links a {
+  font-size: 0.68rem;
+  font-weight: 300;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-mid);
+  text-decoration: none;
+  transition: color 0.25s;
+}
+.nav-links a:hover { color: var(--red); }
+
+/* red dot nav accent */
+.nav-dot {
+  width: 6px; height: 6px;
+  background: var(--red);
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  padding-top: 60px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-left {
+  padding: 6rem 3.5rem 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+
+.hero-eyebrow {
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  color: var(--ink-faint);
+  margin-bottom: 3rem;
+  opacity: 0;
+  animation: rise 1s ease 0.2s forwards;
+}
+
+.hero-name {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3.5rem, 7vw, 8rem);
+  font-weight: 400;
+  line-height: 0.92;
+  letter-spacing: -0.01em;
+  opacity: 0;
+  animation: rise 1s ease 0.4s forwards;
+}
+
+.hero-name em {
+  font-style: italic;
+  color: var(--red);
+  display: block;
+}
+
+.hero-bio {
+  margin-top: 2.5rem;
+  max-width: 380px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  line-height: 1.85;
+  color: var(--ink-mid);
+  font-style: italic;
+  opacity: 0;
+  animation: rise 1s ease 0.6s forwards;
+}
+
+.hero-actions {
+  margin-top: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  opacity: 0;
+  animation: rise 1s ease 0.8s forwards;
+}
+
+.link-thread {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+  transition: color 0.25s;
+}
+.link-thread::before {
+  content: '';
+  width: 28px; height: 1px;
+  background: var(--red);
+  transition: width 0.3s;
+}
+.link-thread:hover { color: var(--red); }
+.link-thread:hover::before { width: 48px; }
+
+/* hero right — decorative collage */
+.hero-right {
+  position: relative;
+  background: var(--cream2);
+  border-left: 1px solid var(--rule);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-collage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Decorative SVG thread */
+.hero-thread {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  overflow: visible;
+}
+
+.hero-monogram {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Playfair Display', serif;
+  font-size: 22vmin;
+  font-style: italic;
+  color: rgba(192,57,43,0.06);
+  letter-spacing: -0.05em;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.hero-caption {
+  position: absolute;
+  bottom: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  color: var(--ink-faint);
+  white-space: nowrap;
+}
+
+/* Floating labels */
+.float-label {
+  position: absolute;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  color: var(--ink-mid);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.fl-1 { top: 18%; left: 12%; }
+.fl-2 { bottom: 22%; right: 10%; text-align: right; }
+
+/* Red circle ornament */
+.hero-circle {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(192,57,43,0.25);
+}
+.hc1 { width: 220px; height: 220px; top: 20%; left: 20%; }
+.hc2 { width: 120px; height: 120px; top: 55%; left: 60%; }
+.hc3 { width: 60px; height: 60px; top: 30%; left: 65%; border-color: rgba(192,57,43,0.15); }
+
+/* ── DIVIDER with thread ── */
+.thread-divider {
+  position: relative;
+  height: 60px;
+  overflow: hidden;
+  background: var(--cream);
+}
+.thread-divider svg {
+  width: 100%; height: 100%;
+}
+
+/* ── SECTIONS ── */
+.section {
+  padding: 6rem 3.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.section-header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 4rem;
+}
+
+.section-num {
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.65rem;
+  color: var(--red);
+  letter-spacing: 0.1em;
+}
+
+.section-rule {
+  height: 1px;
+  background: var(--rule);
+  position: relative;
+}
+.section-rule::after {
+  content: '✦';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--red);
+  font-size: 0.5rem;
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.5rem, 4.5vw, 5rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  margin-bottom: 1rem;
+}
+.section-title em { font-style: italic; color: var(--red); }
+
+/* ── WRITING ITEMS ── */
+.writing-list { margin-top: 3rem; }
+
+.writing-item {
+  display: grid;
+  grid-template-columns: 2.5rem 1fr 6rem;
+  gap: 2rem;
+  padding: 2rem 0;
+  border-bottom: 1px solid var(--rule);
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  cursor: pointer;
+  align-items: start;
+}
+.writing-item:first-of-type { border-top: 1px solid var(--rule); }
+
+.writing-item::before {
+  content: '';
+  position: absolute;
+  left: -3.5rem; right: -3.5rem; top: 0; bottom: 0;
+  background: var(--cream2);
+  opacity: 0;
+  transition: opacity 0.35s;
+  z-index: 0;
+}
+.writing-item:hover::before { opacity: 1; }
+.writing-item > * { position: relative; z-index: 1; }
+
+.writing-num {
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.65rem;
+  color: var(--red);
+  padding-top: 0.3rem;
+  letter-spacing: 0.05em;
+}
+
+.writing-tag {
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 0.5rem;
+}
+
+.writing-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.45rem;
+  font-weight: 400;
+  line-height: 1.3;
+  margin-bottom: 0.6rem;
+  transition: color 0.25s;
+}
+.writing-item:hover .writing-title { color: var(--red); }
+
+.writing-excerpt {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--ink-mid);
+  max-width: 500px;
+  font-style: italic;
+}
+
+.writing-pub {
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.6rem;
+  color: var(--ink-faint);
+  margin-top: 0.5rem;
+}
+
+.writing-meta { text-align: right; padding-top: 0.3rem; }
+.writing-year {
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.65rem;
+  color: var(--ink-faint);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.writing-arrow {
+  color: var(--red);
+  opacity: 0;
+  transition: opacity 0.25s, transform 0.25s;
+  display: inline-block;
+  font-size: 1rem;
+}
+.writing-item:hover .writing-arrow { opacity: 1; transform: translateX(4px); }
+
+/* ── RESEARCH BAND ── */
+.research-band {
+  background: var(--ink);
+  padding: 5rem 3.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.research-band::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.research-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 5rem;
+  align-items: start;
+  position: relative;
+}
+
+.research-label {
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(192,57,43,0.6);
+}
+
+.research-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--cream);
+  margin-top: 0.75rem;
+  line-height: 1.1;
+}
+
+.research-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding-top: 0.5rem;
+}
+
+.pill {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.9rem;
+  font-style: italic;
+  color: rgba(245,240,232,0.5);
+  border: 1px solid rgba(245,240,232,0.12);
+  padding: 0.4rem 1.2rem;
+  transition: all 0.25s;
+  letter-spacing: 0.03em;
+}
+.pill:hover { color: var(--cream); border-color: rgba(192,57,43,0.5); }
+
+/* Thread decoration in research band */
+.band-thread {
+  position: absolute;
+  right: 0; top: 0; bottom: 0;
+  width: 200px;
+  opacity: 0.08;
+}
+
+/* ── PORTFOLIO ── */
+.portfolio-bg {
+  background: var(--cream2);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+
+.portfolio-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  margin-top: 3rem;
+}
+
+.p-card {
+  background: var(--white);
+  padding: 3.5rem;
+  position: relative;
+  overflow: hidden;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.35s;
+  cursor: pointer;
+}
+.p-card:hover { background: var(--cream); }
+
+.p-card-num {
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.6rem;
+  color: var(--red);
+  letter-spacing: 0.1em;
+}
+
+.p-card-cat {
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 0.75rem;
+}
+
+.p-card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 3vw, 3rem);
+  font-weight: 400;
+  line-height: 1.05;
+  margin-bottom: 1.2rem;
+  transition: color 0.25s;
+}
+.p-card:hover .p-card-title { color: var(--red); }
+
+.p-card-desc {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  font-style: italic;
+  line-height: 1.8;
+  color: var(--ink-mid);
+  max-width: 34ch;
+}
+
+.p-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink);
+  transition: color 0.25s;
+}
+.p-card-link::before { content:''; width:20px; height:1px; background:var(--red); transition: width 0.3s; }
+.p-card:hover .p-card-link { color: var(--red); }
+.p-card:hover .p-card-link::before { width: 36px; }
+
+/* Decorative bg letter */
+.p-card-decor {
+  position: absolute;
+  bottom: -1.5rem; right: 1rem;
+  font-family: 'Playfair Display', serif;
+  font-size: 11rem;
+  font-style: italic;
+  font-weight: 700;
+  color: rgba(192,57,43,0.05);
+  line-height: 1;
+  pointer-events: none;
+  transition: color 0.35s;
+}
+.p-card:hover .p-card-decor { color: rgba(192,57,43,0.09); }
+
+/* ── ABOUT ── */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7rem;
+}
+
+.about-text p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem;
+  line-height: 1.9;
+  color: var(--ink-mid);
+  margin-bottom: 1.4rem;
+}
+.about-text p strong { font-weight: 400; color: var(--ink); }
+
+.about-detail {
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--rule);
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 1rem;
+  align-items: baseline;
+}
+.about-detail:first-child { border-top: 1px solid var(--rule); }
+
+.detail-label {
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.detail-val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--ink);
+}
+
+/* ── CONTACT ── */
+.contact-wrap {
+  background: var(--ink);
+  padding: 7rem 3.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* red thread decoration */
+.contact-thread {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  opacity: 0.15;
+}
+
+.contact-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6rem;
+  align-items: end;
+  position: relative;
+}
+
+.contact-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3rem, 6vw, 7.5rem);
+  font-weight: 400;
+  line-height: 0.9;
+  color: var(--cream);
+}
+.contact-title em { font-style: italic; color: rgba(192,57,43,0.8); }
+
+.contact-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-style: italic;
+  color: rgba(245,240,232,0.4);
+  margin-top: 1.5rem;
+  line-height: 1.7;
+}
+
+.contact-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 1.1rem 0;
+  border-bottom: 1px solid rgba(245,240,232,0.07);
+}
+
+.c-label {
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(245,240,232,0.25);
+}
+
+.c-val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--cream);
+  text-decoration: none;
+  transition: color 0.25s;
+}
+a.c-val:hover { color: rgba(192,57,43,0.8); }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--ink);
+  border-top: 1px solid rgba(245,240,232,0.06);
+  padding: 1.5rem 3.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+footer span {
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(245,240,232,0.2);
+}
+.footer-links { display: flex; gap: 2.5rem; }
+.footer-links a {
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(245,240,232,0.25);
+  text-decoration: none;
+  transition: color 0.25s;
+}
+.footer-links a:hover { color: var(--cream); }
+
+/* ── REVEAL ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.9s cubic-bezier(.16,1,.3,1), transform 0.9s cubic-bezier(.16,1,.3,1);
+}
+.reveal.in { opacity: 1; transform: none; }
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@media (max-width: 768px) {
+  nav { padding: 0 1.5rem; }
+  .nav-links { display: none; }
+  .hero { grid-template-columns: 1fr; }
+  .hero-right { display: none; }
+  .hero-left { padding: 4rem 1.5rem 3rem; }
+  .section { padding: 4rem 1.5rem; }
+  .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .portfolio-cards { grid-template-columns: 1fr; }
+  .writing-item { grid-template-columns: 2rem 1fr; }
+  .writing-meta { display: none; }
+  .research-inner { grid-template-columns: 1fr; gap: 2rem; }
+  .research-band { padding: 3rem 1.5rem; }
+  .contact-wrap { padding: 4rem 1.5rem; }
+  .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+  footer { flex-direction: column; gap: 1rem; padding: 1.5rem; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">Gemma E Keeling</a>
+  <ul class="nav-links">
+    <li><a href="#writing">Research</a></li>
+    <li><span class="nav-dot"></span></li>
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><span class="nav-dot"></span></li>
+    <li><a href="#about">About</a></li>
+    <li><span class="nav-dot"></span></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">LL.B. Trinity College Dublin · NYU School of Law · New York</p>
+    <h1 class="hero-name">
+      Gemma<br>
+      <em>E Keeling</em>
+    </h1>
+    <p class="hero-bio">
+      Irish lawyer and incoming NYU School of Law student. Legal academic writing, research, and a personal archive of writing and photography — made carefully, across disciplines.
+    </p>
+    <div class="hero-actions">
+      <a href="#writing" class="link-thread">Academic writing</a>
+      <a href="#portfolio" class="link-thread">Personal portfolio</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-collage">
+      <div class="hero-monogram">GEK</div>
+      <div class="hero-circle hc1"></div>
+      <div class="hero-circle hc2"></div>
+      <div class="hero-circle hc3"></div>
+
+      <svg class="hero-thread" viewBox="0 0 600 800" preserveAspectRatio="none" fill="none">
+        <path d="M 80 120 Q 300 200 420 80 T 550 300 Q 480 450 200 480 T 80 650 Q 160 750 400 720" stroke="#c0392b" stroke-width="1.2" opacity="0.3" fill="none"/>
+        <circle cx="80" cy="120" r="4" fill="#c0392b" opacity="0.5"/>
+        <circle cx="550" cy="300" r="3" fill="#c0392b" opacity="0.35"/>
+        <circle cx="400" cy="720" r="4" fill="#c0392b" opacity="0.4"/>
+        <!-- small cross marks -->
+        <line x1="295" y1="196" x2="305" y2="204" stroke="#c0392b" stroke-width="1" opacity="0.4"/>
+        <line x1="305" y1="196" x2="295" y2="204" stroke="#c0392b" stroke-width="1" opacity="0.4"/>
+        <line x1="196" y1="476" x2="204" y2="484" stroke="#c0392b" stroke-width="1" opacity="0.3"/>
+        <line x1="204" y1="476" x2="196" y2="484" stroke="#c0392b" stroke-width="1" opacity="0.3"/>
+      </svg>
+
+      <div class="float-label fl-1">
+        <span style="font-size:0.75rem; color:var(--ink-faint); font-family:'Courier Prime',monospace; letter-spacing:0.1em;">West Cork, Ireland</span><br>
+        <span style="font-size:1rem;">→ New York</span>
+      </div>
+      <div class="float-label fl-2">
+        <span style="font-size:0.7rem; color:var(--ink-faint);">Law · Writing · Photography</span>
+      </div>
+
+      <div class="hero-caption">✦ &nbsp; Archive &nbsp; ✦</div>
+    </div>
+  </div>
+</div>
+
+<!-- THREAD DIVIDER -->
+<div class="thread-divider">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" fill="none">
+    <path d="M0,30 Q180,10 360,30 T720,30 T1080,30 T1440,30" stroke="#c0392b" stroke-width="0.8" opacity="0.25"/>
+    <path d="M0,35 Q240,55 480,35 T960,35 T1440,35" stroke="#c0392b" stroke-width="0.5" opacity="0.15"/>
+    <circle cx="360" cy="30" r="3" fill="#c0392b" opacity="0.3"/>
+    <circle cx="720" cy="30" r="3" fill="#c0392b" opacity="0.3"/>
+    <circle cx="1080" cy="30" r="3" fill="#c0392b" opacity="0.3"/>
+  </svg>
+</div>
+
+<!-- WRITING -->
+<div id="writing">
+  <div class="section">
+    <div class="section-header reveal">
+      <span class="section-num">01</span>
+      <div class="section-rule"></div>
+    </div>
+    <h2 class="section-title reveal">Academic<br><em>Writing</em></h2>
+
+    <div class="writing-list">
+      <div class="writing-item reveal">
+        <span class="writing-num">01</span>
+        <div>
+          <div class="writing-tag">Honours Capstone · Trinity College Dublin</div>
+          <h3 class="writing-title">The Effect of Algorithmic Audiencing on Political Speech & the Right to Freedom of Expression in a Modern Democratic Society</h3>
+          <p class="writing-excerpt">An examination of how algorithmic content curation shapes the visibility of political speech online, and the implications this holds for freedom of expression in contemporary democratic societies.</p>
+          <p class="writing-pub">LL.B. First Class Honours, Trinity College Dublin (2024)</p>
+        </div>
+        <div class="writing-meta">
+          <span class="writing-year">2024</span>
+          <span class="writing-arrow">→</span>
+        </div>
+      </div>
+
+      <div class="writing-item reveal" style="opacity:0.45;">
+        <span class="writing-num">02</span>
+        <div>
+          <div class="writing-tag">Academic Article — forthcoming</div>
+          <h3 class="writing-title">Add future article title here</h3>
+          <p class="writing-excerpt">Add a brief abstract when published.</p>
+          <p class="writing-pub">Journal Name (Year)</p>
+        </div>
+        <div class="writing-meta">
+          <span class="writing-year">—</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- THREAD DIVIDER -->
+<div class="thread-divider">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" fill="none">
+    <path d="M0,30 Q360,50 720,30 T1440,30" stroke="#c0392b" stroke-width="0.8" opacity="0.2"/>
+    <circle cx="720" cy="30" r="3" fill="#c0392b" opacity="0.3"/>
+  </svg>
+</div>
+
+<!-- RESEARCH BAND -->
+<div class="research-band">
+  <svg class="band-thread" viewBox="0 0 200 400" preserveAspectRatio="none" fill="none">
+    <path d="M100,0 Q180,100 100,200 T100,400" stroke="#c0392b" stroke-width="1.5"/>
+  </svg>
+  <div class="research-inner">
+    <div class="reveal">
+      <div class="research-label">Fields of inquiry</div>
+      <div class="research-title">Areas of<br>Research</div>
+    </div>
+    <div class="research-pills reveal">
+      <span class="pill">Freedom of Expression</span>
+      <span class="pill">Technology &amp; Law</span>
+      <span class="pill">Constitutional Law</span>
+      <span class="pill">Civil Litigation</span>
+      <span class="pill">Criminal Defence</span>
+      <span class="pill">Governance &amp; Regulation</span>
+    </div>
+  </div>
+</div>
+
+<!-- PORTFOLIO -->
+<div id="portfolio" class="portfolio-bg">
+  <div class="section">
+    <div class="section-header reveal">
+      <span class="section-num">02</span>
+      <div class="section-rule"></div>
+    </div>
+    <h2 class="section-title reveal">Personal<br><em>Portfolio</em></h2>
+    <div class="portfolio-cards reveal">
+      <a href="gemma-magazine.html" class="p-card">
+        <span class="p-card-num">01</span>
+        <div>
+          <div class="p-card-cat">Personal Writing &amp; Photography</div>
+          <h3 class="p-card-title">The<br>Archive</h3>
+          <p class="p-card-desc">A magazine-style collection of personal essays, observations, and photography — designed to be read slowly.</p>
+        </div>
+        <span class="p-card-link">Open archive</span>
+        <div class="p-card-decor">A</div>
+      </a>
+      <div class="p-card" style="cursor:default;">
+        <span class="p-card-num">02</span>
+        <div>
+          <div class="p-card-cat">Coming Soon</div>
+          <h3 class="p-card-title">More<br><em>to Come</em></h3>
+          <p class="p-card-desc">Further personal work — writing, photography, and other projects — will be added here as the archive grows.</p>
+        </div>
+        <span class="p-card-link" style="opacity:0.3;pointer-events:none;">In progress</span>
+        <div class="p-card-decor" style="font-style:italic;">ii</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- THREAD DIVIDER -->
+<div class="thread-divider" style="background:var(--cream2);">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" fill="none">
+    <path d="M0,30 Q240,10 480,30 T960,30 T1440,30" stroke="#c0392b" stroke-width="0.8" opacity="0.2"/>
+  </svg>
+</div>
+
+<!-- ABOUT -->
+<div id="about">
+  <div class="section">
+    <div class="section-header reveal">
+      <span class="section-num">03</span>
+      <div class="section-rule"></div>
+    </div>
+    <h2 class="section-title reveal">About<br><em>Gemma</em></h2>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>I'm Gemma — an <strong>Irish lawyer and incoming NYU School of Law student</strong> based in New York. I graduated with First Class Honours in Law (LL.B.) from Trinity College Dublin in 2024, where my capstone thesis examined algorithmic audiencing and freedom of expression online.</p>
+        <p>Most recently I worked as a Legal Clerk at McCarney Law P.C. in New York, drafting briefs, pleadings, and discovery materials across a high-volume civil litigation practice. Before that, I interned at Macguill and Company in Dublin in criminal defence.</p>
+        <p>Outside of law I'm a board member of the Green Economy Foundation in West Cork, a competitive sailor, and I keep a personal archive of writing and photography.</p>
+      </div>
+      <div class="reveal">
+        <div class="about-detail">
+          <div class="detail-label">Currently</div>
+          <div class="detail-val">Masters Student, NYU School of Law</div>
+        </div>
+        <div class="about-detail">
+          <div class="detail-label">Education</div>
+          <div class="detail-val">LL.B. First Class Honours, Trinity College Dublin</div>
+        </div>
+        <div class="about-detail">
+          <div class="detail-label">Experience</div>
+          <div class="detail-val">McCarney Law P.C., New York · Macguill & Co., Dublin</div>
+        </div>
+        <div class="about-detail">
+          <div class="detail-label">Based</div>
+          <div class="detail-val">New York, NY — from West Cork, Ireland</div>
+        </div>
+        <div class="about-detail">
+          <div class="detail-label">Contact</div>
+          <div class="detail-val">gemma.e.keeling@gmail.com</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div id="contact" class="contact-wrap">
+  <svg class="contact-thread" viewBox="0 0 1440 500" preserveAspectRatio="none" fill="none">
+    <path d="M0,250 Q360,100 720,250 T1440,250" stroke="#c0392b" stroke-width="1.5"/>
+    <path d="M0,280 Q480,420 960,280 T1440,280" stroke="#c0392b" stroke-width="0.8"/>
+    <circle cx="360" cy="175" r="4" fill="#c0392b"/>
+    <circle cx="720" cy="250" r="4" fill="#c0392b"/>
+    <circle cx="1080" cy="325" r="4" fill="#c0392b"/>
+  </svg>
+  <div class="contact-inner">
+    <div class="reveal">
+      <h2 class="contact-title">Get<br>in<br><em>Touch</em></h2>
+      <p class="contact-sub">For academic enquiries, research collaborations, or anything else — I'd love to hear from you.</p>
+    </div>
+    <div class="reveal">
+      <div class="contact-row">
+        <span class="c-label">Email</span>
+        <a href="mailto:gemma.e.keeling@gmail.com" class="c-val">gemma.e.keeling@gmail.com</a>
+      </div>
+      <div class="contact-row">
+        <span class="c-label">Currently</span>
+        <span class="c-val">NYU School of Law</span>
+      </div>
+      <div class="contact-row">
+        <span class="c-label">Available for</span>
+        <span class="c-val">Research collaborations &amp; enquiries</span>
+      </div>
+      <div class="contact-row">
+        <span class="c-label">Location</span>
+        <span class="c-val">New York, NY</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>© 2026 Gemma E Keeling</span>
+  <div class="footer-links">
+    <a href="#writing">Research</a>
+    <a href="#portfolio">Portfolio</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <span>All rights reserved</span>
+</footer>
+
+<script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach((el, i) => {
+  el.style.transitionDelay = (i % 4) * 0.08 + 's';
+  obs.observe(el);
+});
+</script>
+</body>
+</html>

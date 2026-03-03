@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Gemma Keeling — Academic</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400&family=Courier+Prime&display=swap" rel="stylesheet"/>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #fff;
+  --ink: #111;
+  --mid: #666;
+  --faint: #bbb;
+  --rule: #e8e8e8;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+}
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  height: 56px;
+  border-bottom: 1px solid var(--rule);
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 3rem;
+}
+
+.nav-back {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--faint);
+  text-decoration: none;
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.nav-back::before { content: '←'; }
+.nav-back:hover { color: var(--ink); }
+
+.nav-name {
+  font-family: 'EB Garamond', serif;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--mid);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--ink); }
+
+/* HERO */
+.hero {
+  padding: 56px 3rem 0;
+  min-height: 55vh;
+  display: flex;
+  align-items: flex-end;
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.hero-inner {
+  padding: 4rem 0 3.5rem;
+  border-bottom: 1px solid var(--rule);
+  width: 100%;
+}
+
+.hero-tag {
+  font-size: 0.65rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: rise 0.8s ease 0.2s forwards;
+}
+
+.hero-title {
+  font-family: 'EB Garamond', serif;
+  font-size: clamp(2.8rem, 6vw, 6rem);
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  opacity: 0;
+  animation: rise 0.8s ease 0.35s forwards;
+}
+
+.hero-title em { font-style: italic; }
+
+.hero-bio {
+  margin-top: 2rem;
+  max-width: 500px;
+  font-family: 'EB Garamond', serif;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--mid);
+  font-style: italic;
+  opacity: 0;
+  animation: rise 0.8s ease 0.5s forwards;
+}
+
+/* SECTIONS */
+.section {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 5rem 3rem;
+}
+
+.section + .section {
+  border-top: 1px solid var(--rule);
+}
+
+.section-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-bottom: 2.5rem;
+}
+
+/* WRITING LIST */
+.writing-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2rem;
+  padding: 1.8rem 0;
+  border-bottom: 1px solid var(--rule);
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  cursor: pointer;
+  align-items: start;
+}
+.writing-item:first-of-type { border-top: 1px solid var(--rule); }
+
+.writing-tag {
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-bottom: 0.5rem;
+}
+
+.writing-title {
+  font-family: 'EB Garamond', serif;
+  font-size: 1.35rem;
+  font-weight: 400;
+  line-height: 1.3;
+  margin-bottom: 0.5rem;
+  transition: opacity 0.2s;
+}
+.writing-item:hover .writing-title { opacity: 0.4; }
+
+.writing-excerpt {
+  font-family: 'EB Garamond', serif;
+  font-size: 0.98rem;
+  font-style: italic;
+  line-height: 1.7;
+  color: var(--mid);
+  max-width: 480px;
+}
+
+.writing-pub {
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.6rem;
+  color: var(--faint);
+  margin-top: 0.5rem;
+  letter-spacing: 0.05em;
+}
+
+.writing-meta {
+  text-align: right;
+  padding-top: 0.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.4rem;
+}
+
+.writing-year {
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.62rem;
+  color: var(--faint);
+}
+
+.writing-arrow {
+  font-size: 0.9rem;
+  color: var(--faint);
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.2s, transform 0.2s;
+}
+.writing-item:hover .writing-arrow { opacity: 1; transform: translateX(0); }
+
+/* RESEARCH AREAS */
+.areas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.area {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: var(--mid);
+  border: 1px solid var(--rule);
+  padding: 0.35rem 0.9rem;
+  transition: border-color 0.2s, color 0.2s;
+}
+.area:hover { border-color: #aaa; color: var(--ink); }
+
+/* CV */
+.cv-row {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 2rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--rule);
+  align-items: baseline;
+}
+.cv-row:first-of-type { border-top: 1px solid var(--rule); }
+
+.cv-date {
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.62rem;
+  color: var(--faint);
+  letter-spacing: 0.08em;
+  padding-top: 0.1rem;
+}
+
+.cv-title {
+  font-family: 'EB Garamond', serif;
+  font-size: 1.05rem;
+  font-weight: 400;
+  margin-bottom: 0.2rem;
+}
+
+.cv-sub {
+  font-size: 0.72rem;
+  color: var(--mid);
+  letter-spacing: 0.05em;
+}
+
+/* FOOTER */
+footer {
+  border-top: 1px solid var(--rule);
+  padding: 1.5rem 3rem;
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+footer span {
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+/* REVEAL */
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.reveal.in { opacity: 1; transform: none; }
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@media (max-width: 640px) {
+  nav { padding: 0 1.5rem; }
+  .nav-links { display: none; }
+  .hero, .section { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .cv-row { grid-template-columns: 1fr; gap: 0.3rem; }
+  .writing-item { grid-template-columns: 1fr; }
+  .writing-meta { display: none; }
+  footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-back">Home</a>
+  <a href="index.html" class="nav-name">Gemma Keeling</a>
+  <ul class="nav-links">
+    <li><a href="#writing">Writing</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#cv">CV</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <p class="hero-tag">Academic</p>
+    <h1 class="hero-title">Law &amp;<br><em>Research</em></h1>
+    <p class="hero-bio">
+      LL.B. First Class Honours, Trinity College Dublin. Masters student at NYU School of Law. Based in New York — from West Cork, Ireland.
+    </p>
+  </div>
+</div>
+
+<!-- WRITING -->
+<div id="writing" class="section">
+  <p class="section-label reveal">Writing</p>
+
+  <div class="writing-item reveal">
+    <div>
+      <div class="writing-tag">Honours Capstone · Trinity College Dublin</div>
+      <h3 class="writing-title">The Effect of Algorithmic Audiencing on Political Speech &amp; the Right to Freedom of Expression in a Modern Democratic Society</h3>
+      <p class="writing-excerpt">An examination of how algorithmic content curation shapes the visibility of political speech online, and the implications for freedom of expression in contemporary democratic societies.</p>
+      <p class="writing-pub">LL.B. First Class Honours · Trinity College Dublin · 2024</p>
+    </div>
+    <div class="writing-meta">
+      <span class="writing-year">2024</span>
+      <span class="writing-arrow">→</span>
+    </div>
+  </div>
+
+  <div class="writing-item reveal" style="opacity:0.4; pointer-events:none;">
+    <div>
+      <div class="writing-tag">Forthcoming</div>
+      <h3 class="writing-title">Add future article title here</h3>
+      <p class="writing-excerpt">Add a brief abstract when published.</p>
+      <p class="writing-pub">Journal · Year</p>
+    </div>
+    <div class="writing-meta">
+      <span class="writing-year">—</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- RESEARCH -->
+<div id="research" class="section">
+  <p class="section-label reveal">Areas of Research</p>
+  <div class="areas reveal">
+    <span class="area">Freedom of Expression</span>
+    <span class="area">Technology &amp; Law</span>
+    <span class="area">Constitutional Law</span>
+    <span class="area">Civil Litigation</span>
+    <span class="area">Criminal Defence</span>
+    <span class="area">Governance &amp; Regulation</span>
+  </div>
+</div>
+
+<!-- CV -->
+<div id="cv" class="section">
+  <p class="section-label reveal">CV</p>
+
+  <p class="section-label reveal" style="margin-bottom:1.5rem; color:#999;">Education</p>
+
+  <div class="cv-row reveal">
+    <div class="cv-date">2025 — present</div>
+    <div>
+      <div class="cv-title">NYU School of Law</div>
+      <div class="cv-sub">Masters of Law (LLM)</div>
+    </div>
+  </div>
+
+  <div class="cv-row reveal">
+    <div class="cv-date">2020 — 2024</div>
+    <div>
+      <div class="cv-title">Trinity College Dublin</div>
+      <div class="cv-sub">Bachelor of Laws (LL.B.) — First Class Honours</div>
+    </div>
+  </div>
+
+  <p class="section-label reveal" style="margin: 3rem 0 1.5rem; color:#999;">Experience</p>
+
+  <div class="cv-row reveal">
+    <div class="cv-date">Sep 2024 — Oct 2025</div>
+    <div>
+      <div class="cv-title">McCarney Law P.C. — Legal Clerk</div>
+      <div class="cv-sub">New York, NY · Civil litigation</div>
+    </div>
+  </div>
+
+  <div class="cv-row reveal">
+    <div class="cv-date">Jul 2023</div>
+    <div>
+      <div class="cv-title">Macguill &amp; Company — Legal Intern</div>
+      <div class="cv-sub">Dublin, Ireland · Criminal defence</div>
+    </div>
+  </div>
+
+  <div class="cv-row reveal">
+    <div class="cv-date">2021 — present</div>
+    <div>
+      <div class="cv-title">Green Economy Foundation — Board Member</div>
+      <div class="cv-sub">West Cork, Ireland</div>
+    </div>
+  </div>
+
+  <p class="section-label reveal" style="margin: 3rem 0 1.5rem; color:#999;">Skills</p>
+
+  <div class="cv-row reveal">
+    <div class="cv-date">Legal Research</div>
+    <div>
+      <div class="cv-sub">LexisNexis · Westlaw</div>
+    </div>
+  </div>
+
+  <div class="cv-row reveal">
+    <div class="cv-date">Filing</div>
+    <div>
+      <div class="cv-sub">NYSCEF · PACER</div>
+    </div>
+  </div>
+
+  <div class="cv-row reveal">
+    <div class="cv-date">Software</div>
+    <div>
+      <div class="cv-sub">Google Suite · Adobe Creative Suite · Microsoft Office</div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <span>Gemma Keeling</span>
+  <span>gemma.e.keeling@gmail.com</span>
+  <span>© 2026</span>
+</footer>
+
+<script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach((el, i) => {
+  el.style.transitionDelay = (i % 3) * 0.07 + 's';
+  obs.observe(el);
+});
+</script>
+</body>
+</html>
